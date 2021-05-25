@@ -21,8 +21,7 @@ def predict_img(net,
     net.eval()
 
     img = torch.from_numpy(BasicDataset.preprocess(full_img, scale_factor))
-    # print(type(img))
-    # print(img.shape)
+    
     img = img.unsqueeze(0)
     img = img.to(device=device, dtype=torch.float32)
 
