@@ -30,7 +30,7 @@ def predict(file: UploadFile = File(...)):
                         scale_factor=0.5,
                         out_threshold=0.5,
                         device=device)
-    
+    mask = np.resize(mask, img_np.shape[:-1])
     mask_rgb = np.stack([mask == 1]*3, axis=2)
     print(mask_rgb.shape)
     image_bg_removed = np.where(mask_rgb, img_np, 0)
