@@ -23,16 +23,20 @@ def predict(file: UploadFile = File(...)):
     net.to(device=device)
     net.load_state_dict(torch.load(MODEL_PATH, map_location=device))
 
-    img = Image.open(file.filename)
-
+    img = Image.open(file.filename).convert('RGB')
+    img_np = np.array(img)
     mask = predict_img(net=net,
                         full_img=img,
                         scale_factor=0.5,
                         out_threshold=0.5,
                         device=device)
-
-    # out_fn = out_files[i]
-    result = mask_to_image(mask)
+    
+    mask_rgb = np.stack([mask == 1]*3, axis=2)
+    print(mask_rgb.shape)
+    image_bg_removed = np.where(mask_rgb, img_np, 0)
+    print(np.max(image_bg_removed))
+    result = Image.fromarray(image_bg_removed)
+    
     output_path = 'output.' + file_ext
     result.save(output_path)
 
