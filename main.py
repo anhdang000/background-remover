@@ -14,7 +14,7 @@ from libs import *
 app = FastAPI()
 
 @app.post('/challenge')
-def predict(challenge: str = Form(...), input: UploadFile = Form(...)):
+def predict(challenge: str = Form(...), input: UploadFile = File(...)):
     # Check challenge id
     if challenge != 'cv3':
         return {"message": "The API only works for challenge `cv3`"}
