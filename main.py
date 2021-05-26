@@ -13,12 +13,11 @@ from libs import *
 
 app = FastAPI()
 
-@app.get('/{challenge}')
-async def read_challenge_option(challenge):
-    return challenge
-
 @app.post('/challenge')
 def predict(challenge: str = Form(...), input: UploadFile = Form(...)):
+    # Check challenge id
+    if challenge != 'cv3':
+        return {"message": "The API only works for challenge `cv3`"}
     # Check validation
     file_ext = input.filename.split('.')[-1]
     supported_image_formats = ['bmp', 'jpg', 'jpeg', 'jp2', 'png', 'tiff', 'webp', 'xbm']
@@ -31,7 +30,7 @@ def predict(challenge: str = Form(...), input: UploadFile = Form(...)):
     net.to(device=device)
     net.load_state_dict(torch.load(MODEL_PATH, map_location=device))
 
-    # Retrieve final result
+    # Check file validation
     try:
         img = Image.open(input.file).convert('RGB')
     except:
@@ -43,6 +42,8 @@ def predict(challenge: str = Form(...), input: UploadFile = Form(...)):
                         scale_factor=0.5,
                         out_threshold=0.5,
                         device=device)
+
+    # Retrieve final result
     mask = np.resize(mask, img_np.shape[:-1])
     mask_rgb = np.stack([mask == 1]*3, axis=2)
 
