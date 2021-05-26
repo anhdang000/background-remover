@@ -27,7 +27,6 @@ class BasicDataset(Dataset):
     def preprocess(cls, pil_img, scale):
         w, h = pil_img.size
         newW, newH = int(scale * w), int(scale * h)
-        assert newW > 0 and newH > 0, 'Scale is too small'
         pil_img = pil_img.resize((newW, newH)).convert('RGB')
 
         img_nd = np.array(pil_img)

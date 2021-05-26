@@ -19,7 +19,20 @@ def predict_img(net,
                 scale_factor=1,
                 out_threshold=0.5):
     net.eval()
-    print(full_img)
+
+    w, h = full_img.size
+    newW, newH = int(scale_factor * w), int(scale_factor * h)
+
+    # Check upper bound of input size (Reduce `scale_factor`)
+    while newW >= 800 or newH >= 800:
+        scale_factor /= 1.8
+        newW, newH = int(scale_factor * w), int(scale_factor * h)
+
+    # Check lower bound of input size (Increase `scale_factor`)
+    while newW <= 50 or newH <= 50:
+        scale_factor *= 1.2
+        newW, newH = int(scale_factor * w), int(scale_factor * h)
+        
     img = torch.from_numpy(BasicDataset.preprocess(full_img, scale_factor))
 
     img = img.unsqueeze(0)
