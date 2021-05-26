@@ -9,10 +9,6 @@ from libs import *
 
 app = FastAPI()
 
-@app.get('/index')
-def hello_world(name : str):
-    return f"Hello {name}"
-
 @app.post('/api/predict')
 def predict(file: UploadFile = File(...)):
     file_ext = file.filename.split('.')[-1]
