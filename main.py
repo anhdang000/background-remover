@@ -45,7 +45,8 @@ def predict(challenge: str = Form(...), input: UploadFile = File(...)):
 
     if img is None:
         return {"error": f"File {input.filename} could not be read"}
-        
+    
+    # Compute scale factor that fix both dimentions
     w, h = img.size
     scale_factor = [INPUT_SIZE/max(w, h), INPUT_SIZE/max(w, h)]
     newW = w * scale_factor[0]
