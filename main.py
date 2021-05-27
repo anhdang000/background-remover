@@ -59,6 +59,7 @@ def predict(challenge: str = Form(...), input: UploadFile = File(...)):
         scale_factor[1] *= 2
         newH = h * scale_factor[1]
 
+    # Read image in numpy for later merging process
     img_np = np.array(img)
     img_np = cv2.resize(img_np, dsize=None, fx=scale_factor[0], fy=scale_factor[1])
     
