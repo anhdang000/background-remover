@@ -1,11 +1,10 @@
 from os.path import splitext
 from os import listdir
-import numpy as np
 from glob import glob
 import torch
 from torch.utils.data import Dataset
-import logging
-from PIL import Image
+
+from libs import *
 
 
 class BasicDataset(Dataset):
@@ -26,7 +25,7 @@ class BasicDataset(Dataset):
     @classmethod
     def preprocess(cls, pil_img, scale):
         w, h = pil_img.size
-        newW, newH = int(scale * w), int(scale * h)
+        newW, newH = int(scale[0] * w), int(scale[1] * h)
         pil_img = pil_img.resize((newW, newH)).convert('RGB')
 
         img_nd = np.array(pil_img)
