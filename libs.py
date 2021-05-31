@@ -10,5 +10,5 @@ import numpy as np
 import torch
 
 MODEL_PATH = 'model.pth'
-INPUT_SIZE = 800
+INPUT_SIZE = 600
 IMAGE_SIZE_LIMIT = 10000000
